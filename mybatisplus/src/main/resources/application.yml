@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+    schema: classpath:db/table-h2.sql
+    data: classpath:db/data-h2.sql
+logging:
+  level:
+    org.gonnaup.examples.mybatisplus.dao: debug
