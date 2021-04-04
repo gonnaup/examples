@@ -1,0 +1,47 @@
+- [ ] Overview
+- 分布式协调服务(A Distributed Coordination Service for Distributed Applications)
+- ZooKeeper is a distributed, open-source coordination service for distributed applications. It exposes a simple set of primitives that distributed applications can build upon to implement higher level services for synchronization, configuration maintenance, and groups and naming. It is designed to be easy to program to, and uses a data model styled after the familiar directory tree structure of file systems
+- [ ] Data Model
+- ZNodes
+    - stat structure
+        - 数据 data
+        - 版本号 version number
+        - 访问控制变化列表 ACL changes
+        - 时间戳 timstamps
+    - Characteristics
+        - Watches(监听器,znode改变时会触发Watch相关事件)
+        - Data Access (存储小数据<1M,配置或状态等信息)
+        - Ephemeral Nodes (临时节点，无子节点)
+        - Sequence Nodes (序列节点)
+- Time in ZooKeeper
+    - Zxid(ZooKeeper Transaction Id 每次操作都生成一个Id，id根据操作先后排序)
+    - Version numbers
+        - version (number of changes to the data of a znode)
+        - cversion (number of changes to the children of a znode)
+        - aversion (number of changes to the ACL of a znode)
+    - Ticks
+    - Real time
+        - ZooKeeper doesn't use real time, or clock time, at all except to put timestamps into the stat structure on znode creation and znode modification.
+- [ ] Zookeeper Stat Structure(统计结构)
+    - czxid : The zxid of the change that caused this znode to be created
+    - mzxid : the zxid of the change that last modified this znode
+    - pzxid : the zxid of the change that last modified children of this znode
+    - ctime : the time in milliseconds from epoch when this znode was created
+    - mtime : the time in milliseconds from epoch when this znode was last modified
+    - version : the number of changes to the data of this znode
+    - cversion : the number of changes to the children of this znode
+    - aversion : the number of changes to the ACL of this znode
+    - ephemeralOwner : the session id of the owner of this znode if the znode is an ephemeral ndoe. if it is not an ephemeral node, it will be zero
+    - dataLength : the length of the data field of this znode
+    - numChildren : the number of children of this znode
+- [ ] ZooKeeper Sessions
+- [ ] ZooKeeper Watches
+    - One-time trigger(一次性触发器，但获取的数据变化时会触发，但下次数据变化不会再触发，除非重新调用获取数据方法)
+    - Sent to the client : This implies that an event is on the way to the client, but may not reach the client before the successful return code to the change operation reaches the client that initiated the change.Network delays or other factors may cause different clients to see watches and return codes from updates at different times. The key point is that everything seen by the different clients will have a consistent order.
+    - The data for which the watch was set
+- [ ] Semantics of Watches
+    - Created event : Enabled with a call to exists
+    - Deleted event : Enabled with a call to exists, getData, and getChildren
+    - Changed event : Enable with a call to exists and getData
+    - Child event : Enable with a call to getChildren
+- [ ] Remember about Watch : Watches are one time triggers;When you disconnect from a server (for example, when the server fails), you will not get any watches until the connection is reestablished
