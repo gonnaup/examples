@@ -2,11 +2,11 @@
  * @author gonnaup
  * @version 2021/7/16 16:55
  * <p>
- * kafka主要参数：
+ * kafka主要配置参数：
  * broker.id=0    #broker的编号，如果集群中有多个broker，则每个broker的编号需要设置不同
  * listeners=PLAINTEXT://localhost:9092    #broker对外提供的服务入口地址
  * log.dirs=/tmp/kafka-logs    #存放消息日志文件的地址
- * zookeeper.connect=localhost:2181    #kafka所需的zookeeper集群地址
+ * zookeeper.connect=localhost:2181    #kafka所需的zookeeper集群地址，多个节点是用逗号隔开
  * <p>
  * <p>
  * kafka脚本：

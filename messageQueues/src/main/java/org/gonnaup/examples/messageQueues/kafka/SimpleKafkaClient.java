@@ -1,6 +1,7 @@
 package org.gonnaup.examples.messageQueues.kafka;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -15,6 +16,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author gonnaup
  * @version 2021/7/15 16:31
+ * @see org.apache.kafka.clients.CommonClientConfigs
+ * @see org.apache.kafka.clients.producer.ProducerConfig
+ * @see org.apache.kafka.clients.consumer.ConsumerConfig
  */
 @Slf4j
 public class SimpleKafkaClient {
@@ -34,7 +38,7 @@ public class SimpleKafkaClient {
         log.info("配置信息 {}", properties);
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
         for (int i = 0; i < 100; i++) {
-            producer.send(new ProducerRecord<>(TOPIC, String.format("这是发送的第%d条消息", i)));
+            producer.send(new ProducerRecord<>(TOPIC, String.format("这是发送的第%d条消息", i)), (metadata, exception) -> log.info("发送成功回调 {}", metadata.toString()));
             log.info("发送第 {} 条消息", i);
             try {
                 TimeUnit.MILLISECONDS.sleep(500);
@@ -42,7 +46,7 @@ public class SimpleKafkaClient {
                 log.warn(e.getMessage());
             }
         }
-
+        producer.close();
     }
 
     public static void kafkaConsumer() {
@@ -54,7 +58,7 @@ public class SimpleKafkaClient {
             return;
         }
         //设置消费组
-        properties.put("group.id", GROUP);
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP);
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(TOPIC));
         int broken = 0;
