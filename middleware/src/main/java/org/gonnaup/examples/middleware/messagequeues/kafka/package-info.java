@@ -21,4 +21,4 @@
  * 5.生产信息
  * $KAFKA_HOME/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic topic-demo
  */
-package org.gonnaup.examples.messageQueues.kafka;
+package org.gonnaup.examples.middleware.messagequeues.kafka;

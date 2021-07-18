@@ -7,7 +7,7 @@
    <br/>`$KAFKA_HOME/bin/kafka-topics.sh --zookeeper localhost:2181 -- create -- topic topic-demo -- replication-factor 3 -- partitions 4`
 
 3. 主题信息查看
-   <br/>`$KAFKA_HOME/bin/kafka-topics.sh --zookeeper localhost:2181 --describe --topic topic-demo
+   <br/>`$KAFKA_HOME/bin/kafka-topics.sh --zookeeper localhost:2181 --describe --topic topic-demo`
 
 4. 消费信息
    <br/>`$KAFKA_HOME/bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic topic-demo`
@@ -38,18 +38,60 @@
 
   指定broker所能接收消息的最大值，默认1048588(≈1M)，
 
-- `acks`
+- #### [生产者](http://kafka.apache.org/documentation/#producerconfigs)
+    - `bootstrap.servers`
 
-  用来指定分区中必须有多少个副本收到这条消息后生产者才会认为这条消息是成功写入的，是非常重要的参数，它涉及消息的可靠性和吞吐量之间的 权衡，acks有3种类型的值
-    - acks = 1。默认值即为1.
+      指定生产者客户端连接kafka集群所需的broker地址清单，格式为`host1:port1,host2:port2,`，建议至少设置两个以上的broker地址学习。
+
+    - `key.serializer`、`value.serializer`
+
+      key和value序列化操作的序列化器无默认值，必须为类的全限定名。
+
+    - `acks`
+
+      用来指定分区中必须有多少个副本收到这条消息后生产者才会认为这条消息是成功写入的，是非常重要的参数，它涉及消息的可靠性和吞吐量之间的 权衡，acks有3种类型的值
+        - acks = 1。默认值即为1。发送消息后，只要分区leader副本成功写入消息，就会收到来自服务端成功响应。当无法写入leader副本，比如leader副本崩溃、重新选举
+          leader副本的过程中，生产者会收到一个错误响应，为了避免消息丢失，生产者可以选择重发消息。如果消息写入leader并返回成功响应给生产者，且在被其他follower
+          副本拉取之前leader副本崩溃，此时消息还是会丢失。acks设置为1是消息可靠性和吞吐量的折中方案。
+
+        - acks = 0。生产者发送消息后不需要等待任何服务端的响应。如果在消息从发送到写入Kafka的过程中出现某些异常，导致Kafka并没有收到这条消息，那么生产者也无从得知，
+          消息也就丢失了。acks设置为0，,集群可达到最大吞吐量。
+
+        - acks=-1或acks=all。生产者发送消息后，需要等待ISR中所有副本都成功写入后才能收到服务端的成功响应。此时集群有最强的可靠性。但这并不意味着消息就一定可靠，因为
+          ISR中可能只有leader副本，这样就退化成了acks=1的情况。
+
+    - `retries`
+
+      生产者重试次数，默认值为0
+
+    - `retry.backoff.ms`
+
+      设定重试之间的间隔，避免无效的频繁重试。
+
+    - `max.request.size`
+
+      生产者客户端能发送的消息最大值，默认为1048576B，即1MB。
+
+- #### [消费者](http://kafka.apache.org/documentation/#consumerconfigs)
+    - `bootstrap.servers`
+
+      集群broker地址清单
+
+    - `group.id`
+
+      消费者隶属的消费者组名，默认值为""，
+    
+    - `key.deserializer`、`value.deserializer`
+    
+      key和value反序列化器
 
 #### kafka生产端
 
 1. 架构
 
-   ![生产者客户端整体架构](producerClientArchitecture.png)
+   ![生产者客户端整体架构](KafkaProducerClientArchitecture.png)
 
-   生产者客户端有两个线程协调运行，分别为主线程和Sender线程。在主线程中由 `KafkaProducer` 创建消息，然后通过可能的拦截器、序列化器和 分区器的作用后缓存到消息累加器(`RecordAccumulator`
+   生产者客户端有两个线程协调运行，分别为主线程和Sender线程。在主线程中由 `KafkaProducer` 创建消息，然后通过可能的拦截器、序列化器和 分区器的作用后缓存到 消息累加器(`RecordAccumulator`
    ，也称为消息收集器)中。Sender线程负责从 `RecordAccumulator` 中获取消息并将其 发送到kafka中
 
    `RecordAccumulator`主要用来缓存消息以便Sender线程可以批量发送，从而减少网络传输的资源消耗以提升性能。主线程将多个`ProducerRecord`
@@ -65,4 +107,4 @@
    这些变化。当客户端中没有需要的元数据或超过`metadata.max.age.ms(default 30000)`未更新元数据时都会引起元数据更新操作。更新元数据是在
    客户端内部操作的，对外透明。由Sender线程先选出`leastLoadedNode`，再向这个Node发送 `MetadataRequest` 请求来获取元数据信息并更新。
 
-   
+#### kafka消费端

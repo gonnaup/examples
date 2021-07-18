@@ -1,16 +1,15 @@
-package org.gonnaup.examples.messageQueues.kafka;
+package org.gonnaup.examples.middleware.messagequeues.kafka;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.PartitionInfo;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
-import java.util.Properties;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,23 +24,17 @@ public class SimpleKafkaClient {
 
     final static String TOPIC = "topic-demo";
 
-    final static String GROUP = "demo";
-
     public static void kafkaProducer() {
-        Properties properties = new Properties();
-        try {
-            properties.load(ClassLoader.getSystemResourceAsStream("kafka.properties"));
-        } catch (IOException e) {
-            log.error("配置文件加载错误");
-            return;
+        KafkaProducer<String, String> producer = KafkaUtil.newProducer();
+        List<PartitionInfo> partitionInfos = producer.partitionsFor(TOPIC);
+        if (partitionInfos.size() > 0) {
+            log.info("producer 连接成功");
         }
-        log.info("配置信息 {}", properties);
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 5; i++) {
             producer.send(new ProducerRecord<>(TOPIC, String.format("这是发送的第%d条消息", i)), (metadata, exception) -> log.info("发送成功回调 {}", metadata.toString()));
             log.info("发送第 {} 条消息", i);
             try {
-                TimeUnit.MILLISECONDS.sleep(500);
+                TimeUnit.MILLISECONDS.sleep(50);
             } catch (InterruptedException e) {
                 log.warn(e.getMessage());
             }
@@ -50,16 +43,7 @@ public class SimpleKafkaClient {
     }
 
     public static void kafkaConsumer() {
-        Properties properties = new Properties();
-        try {
-            properties.load(ClassLoader.getSystemResourceAsStream("kafka.properties"));
-        } catch (IOException e) {
-            log.error("配置文件加载错误");
-            return;
-        }
-        //设置消费组
-        properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP);
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(properties);
+        KafkaConsumer<String, String> consumer = KafkaUtil.newConsumer();
         consumer.subscribe(Collections.singletonList(TOPIC));
         int broken = 0;
         while (true) {
@@ -75,11 +59,11 @@ public class SimpleKafkaClient {
             records.forEach(record -> log.info("{} => {}", record.topic(), record.value()));
             broken = 0;
         }
+        consumer.close();
     }
 
     public static void main(String[] args) {
-        new Thread(SimpleKafkaClient::kafkaProducer, "producer").start();
-        new Thread(SimpleKafkaClient::kafkaConsumer, "consumer").start();
+        kafkaProducer();
     }
 
 }
