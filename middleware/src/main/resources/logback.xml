@@ -6,7 +6,7 @@
         </layout>
     </appender>
 
-    <logger name="org.gonnaup.examples.messageQueues" level="DEBUG"/>
+    <logger name="org.gonnaup.examples.middleware" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

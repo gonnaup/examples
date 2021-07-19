@@ -32,21 +32,21 @@ public class KafkaUtil {
         return new KafkaProducer<String, String>(properties);
     }
 
-    public static KafkaConsumer<String, String> newConsumer() {
+    public static KafkaConsumer<String, String> newBaseConsumer() {
         Properties properties = loadProperties(CONSUMER_PROP_FILE);
         //设置消费组
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP);
         return new KafkaConsumer<>(properties);
     }
 
-    public static KafkaConsumer<String, String> newConsumer(String groupid) {
+    public static KafkaConsumer<String, String> newBaseConsumer(String groupid) {
         Properties properties = loadProperties(CONSUMER_PROP_FILE);
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, groupid);
         return new KafkaConsumer<>(properties);
     }
 
 
-    private static Properties loadProperties(String propFile) {
+    static Properties loadProperties(String propFile) {
         Properties properties = new Properties();
         try {
             properties.load(ClassLoader.getSystemResourceAsStream(propFile));

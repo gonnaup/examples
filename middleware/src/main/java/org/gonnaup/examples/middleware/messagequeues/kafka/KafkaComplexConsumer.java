@@ -7,5 +7,9 @@ package org.gonnaup.examples.middleware.messagequeues.kafka;
  */
 public class KafkaComplexConsumer {
 
+    public static void baseConsumer() {
+
+    }
+
 
 }

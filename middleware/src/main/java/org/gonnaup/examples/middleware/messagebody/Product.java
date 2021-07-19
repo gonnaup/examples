@@ -1,5 +1,6 @@
-package org.gonnaup.examples.middleware.messagequeues;
+package org.gonnaup.examples.middleware.messagebody;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +33,9 @@ public class Product {
 
     private String description;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime updateTime;
 }

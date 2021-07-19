@@ -80,9 +80,9 @@
     - `group.id`
 
       消费者隶属的消费者组名，默认值为""，
-    
+
     - `key.deserializer`、`value.deserializer`
-    
+
       key和value反序列化器
 
 #### kafka生产端
@@ -91,8 +91,8 @@
 
    ![生产者客户端整体架构](KafkaProducerClientArchitecture.png)
 
-   生产者客户端有两个线程协调运行，分别为主线程和Sender线程。在主线程中由 `KafkaProducer` 创建消息，然后通过可能的拦截器、序列化器和 分区器的作用后缓存到 消息累加器(`RecordAccumulator`
-   ，也称为消息收集器)中。Sender线程负责从 `RecordAccumulator` 中获取消息并将其 发送到kafka中
+   生产者客户端有两个线程协调运行，分别为主线程和Sender线程。在主线程中由 `KafkaProducer` 创建消息，然后通过可能的拦截器、序列化器和分区器的作用后缓存到消息累加器(`RecordAccumulator`
+   ，也称为消息收集器)中。Sender线程负责从 `RecordAccumulator` 中获取消息并将其发送到kafka中
 
    `RecordAccumulator`主要用来缓存消息以便Sender线程可以批量发送，从而减少网络传输的资源消耗以提升性能。主线程将多个`ProducerRecord`
    （取决于`batch.size`）封装到`ProducerBatch`中，并存入 `RecordAccumulator` 的双向队列中。Sender线程则将其队列中多个`ProducerBatch`
@@ -108,3 +108,19 @@
    客户端内部操作的，对外透明。由Sender线程先选出`leastLoadedNode`，再向这个Node发送 `MetadataRequest` 请求来获取元数据信息并更新。
 
 #### kafka消费端
+
+- 消费组
+
+  消费者分组，一个topic中的消息只投递给同一组消费者中的一个消费者，相当于组播，通过消费者客户端参数`group.id`来配置。并且**每个分区只能被同一消费组中的一个消费者所消费**。
+  当同一分组中消费者数小于分区数，再增加消费者时，按照既定的逻辑，会将原来消费者(消费分区数大于1)消费 的部分分区分配给新加入的消费者，整体的
+  消费能力具备横向收缩性。对于分区数固定的情况，当一个消费者组中的消费者数大于主题的分区数时，多余 部分的消费者会因分配不到任何分区 而无法
+  消费任何消息。可以通过消费者客户端参数`partition.assignment.strategy`来设置消费者与订阅主题之间的分区分配策略。
+  
+- 客户端开发 [**示例**](KafkaComplexConsumer.java)
+
+    正常的消费逻辑：
+    - 配置消费者客户端参数及创建相应的消费者实例
+    - 订阅主题
+    - 拉取消息并消费
+    - <span style='color:red'>提交消费位移（关系到消息的丢失和重消费）</span>
+    - 关闭消费者实例

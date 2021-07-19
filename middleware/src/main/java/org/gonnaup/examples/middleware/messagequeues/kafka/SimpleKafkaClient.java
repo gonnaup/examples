@@ -43,7 +43,7 @@ public class SimpleKafkaClient {
     }
 
     public static void kafkaConsumer() {
-        KafkaConsumer<String, String> consumer = KafkaUtil.newConsumer();
+        KafkaConsumer<String, String> consumer = KafkaUtil.newBaseConsumer();
         consumer.subscribe(Collections.singletonList(TOPIC));
         int broken = 0;
         while (true) {
