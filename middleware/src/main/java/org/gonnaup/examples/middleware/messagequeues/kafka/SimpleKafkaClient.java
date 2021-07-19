@@ -6,6 +6,8 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.PartitionInfo;
+import org.gonnaup.examples.middleware.JsonUtil;
+import org.gonnaup.examples.middleware.messagebody.MessageFactory;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -24,17 +26,17 @@ public class SimpleKafkaClient {
 
     final static String TOPIC = "topic-demo";
 
-    public static void kafkaProducer() {
+    public static void kafkaProducer(int count, long sleep) {
         KafkaProducer<String, String> producer = KafkaUtil.newProducer();
         List<PartitionInfo> partitionInfos = producer.partitionsFor(TOPIC);
         if (partitionInfos.size() > 0) {
             log.info("producer 连接成功");
         }
-        for (int i = 0; i < 5; i++) {
-            producer.send(new ProducerRecord<>(TOPIC, String.format("这是发送的第%d条消息", i)), (metadata, exception) -> log.info("发送成功回调 {}", metadata.toString()));
+        for (int i = 0; i < count; i++) {
+            producer.send(new ProducerRecord<>(TOPIC, JsonUtil.toJSONString(MessageFactory.randomProduct())), (metadata, exception) -> log.info("发送成功回调 {}", metadata.toString()));
             log.info("发送第 {} 条消息", i);
             try {
-                TimeUnit.MILLISECONDS.sleep(50);
+                TimeUnit.MILLISECONDS.sleep(sleep);
             } catch (InterruptedException e) {
                 log.warn(e.getMessage());
             }
@@ -60,10 +62,6 @@ public class SimpleKafkaClient {
             broken = 0;
         }
         consumer.close();
-    }
-
-    public static void main(String[] args) {
-        kafkaProducer();
     }
 
 }

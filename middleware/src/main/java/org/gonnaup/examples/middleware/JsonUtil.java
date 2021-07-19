@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
-import org.gonnaup.examples.middleware.messagebody.MessageFactory;
-import org.gonnaup.examples.middleware.messagebody.Product;
 
 import java.io.IOException;
 
@@ -64,11 +62,6 @@ public final class JsonUtil {
             log.error("parse failed, reasons: {}", e.getMessage());
             throw new RuntimeException(e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        log.info(toJSONString(MessageFactory.randomProduct()));
-        log.info(parseJSON(toJSONString(MessageFactory.randomProduct()), Product.class).toString());
     }
 
 }
