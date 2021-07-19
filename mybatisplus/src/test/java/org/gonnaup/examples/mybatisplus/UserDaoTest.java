@@ -24,7 +24,8 @@ public class UserDaoTest {
         System.out.println("------------------------------------------------------");
         userDao.selectList(Wrappers.lambdaQuery(User.class).likeRight(User::getName, "J")).forEach(System.out::println);
         System.out.println("------------------------------------------------------");
-        Page<User> j = userDao.selectPage(new Page<User>(1, 1), Wrappers.lambdaQuery(User.class).likeRight(User::getName, "J"));
+        Page<User> j = userDao.selectPage(new Page<User>(1, 1), null);
+        System.out.println(j.getTotal());
         System.out.println(j.getRecords());
     }
 }

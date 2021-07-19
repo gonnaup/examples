@@ -1,4 +1,4 @@
-package org.gonnaup.examples.zookeeper;
+package org.gonnaup.examples.middleware.zookeeper;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
@@ -16,7 +16,7 @@ public class ZookeeperWatcherEx {
     public static void watcher_eg() {
         String path0 = "/test/watcher/node-1";
         CuratorEx.createNode(path0, "watcher");
-        CuratorFramework curatorFramework = ZKClient.newCuratorFramework();
+        CuratorFramework curatorFramework = ZKClient.curatorFramework();
         try {
             curatorFramework.start();
             curatorFramework.checkExists()

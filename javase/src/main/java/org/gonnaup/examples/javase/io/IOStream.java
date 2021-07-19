@@ -39,10 +39,26 @@ public class IOStream {
         }
     }
 
+    public void araryStream() {
+        String msg = "你好！";
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(msg.getBytes(StandardCharsets.UTF_8));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            int temp = 0;
+            while ((temp = bis.read()) != -1) {
+                bos.write(temp);
+            }
+            log.info(bos.toString(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static void main(String[] args) {
         IOStream ioStream = new IOStream();
         ioStream.inStream();
         ioStream.outStream();
+        ioStream.araryStream();
     }
 
 

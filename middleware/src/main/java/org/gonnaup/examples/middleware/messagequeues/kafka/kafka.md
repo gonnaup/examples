@@ -1,6 +1,6 @@
 #### kafka脚本：
 
-1. kafka启动：
+1. kafka启动<span style='color:red'>**（需要关闭防火墙）**</span>：
    <br/>`$KAFKA_HOME/bin/kafka-server-start.sh config/server.properties`
 
 2. kafka创建topic"topic-demo"，副本因子3，分区数4
