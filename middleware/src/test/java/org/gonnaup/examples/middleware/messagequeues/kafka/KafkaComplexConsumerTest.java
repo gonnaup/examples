@@ -12,4 +12,9 @@ class KafkaComplexConsumerTest {
     void baseConsumer() {
         TestUtil.runWithSeparateThreadAndBothEnd(() -> SimpleKafkaClient.kafkaProducer(50, 10), () -> KafkaComplexConsumer.baseConsumer(50));
     }
+
+    @Test
+    void assinSpecialPartitions() {
+        TestUtil.runWithSeparateThreadAndBothEnd(() -> SimpleKafkaClient.kafkaProducer(10, 100), () -> KafkaComplexConsumer.assinSpecialPartitions(1));
+    }
 }
