@@ -17,4 +17,9 @@ class KafkaComplexConsumerTest {
     void assinSpecialPartitions() {
         TestUtil.runWithSeparateThreadAndBothEnd(() -> SimpleKafkaClient.kafkaProducer(10, 100), () -> KafkaComplexConsumer.assinSpecialPartitions(1));
     }
+
+    @Test
+    void manualCommitOffset() {
+        TestUtil.runWithSeparateThreadAndBothEnd(() -> SimpleKafkaClient.kafkaProducer(2000, 100), () -> KafkaComplexConsumer.manualCommitOffset(2000));
+    }
 }

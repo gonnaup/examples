@@ -88,7 +88,7 @@ public class KafkaComplexConsumer {
                     //按分区维度获取消费记录
                     List<ConsumerRecord<String, String>> partitionRecords = records.records(topicPartition);
                     partitionRecords.forEach(consumerRecord -> {
-                        log.info("获取消息 {}", JsonUtil.parseJSON(consumerRecord.value(), Product.class));
+                        log.info("获取消息 topic = {}, partition = {}, offset = {}, value = {}", consumerRecord.topic(), consumerRecord.partition(), consumerRecord.offset(), JsonUtil.parseJSON(consumerRecord.value(), Product.class));
                         try {
                             TimeUnit.MILLISECONDS.sleep(100);//模拟逻辑处理时间
                         } catch (InterruptedException e) {
@@ -100,13 +100,18 @@ public class KafkaComplexConsumer {
                     long lastOffset = partitionRecords.get(partitionRecords.size() - 1).offset();
                     consumer.commitSync(Collections.singletonMap(topicPartition, new OffsetAndMetadata(lastOffset + 1)));
                 });
-            } while (count.get() >= max_count);
+            } while (count.get() < max_count);
         }
 
     }
 
+    /**
+     * @see KafkaConsumer#wakeup()
+     * @see KafkaConsumer#close()
+     */
+    public static void controlConsumer() {
 
-
+    }
 
 
 
