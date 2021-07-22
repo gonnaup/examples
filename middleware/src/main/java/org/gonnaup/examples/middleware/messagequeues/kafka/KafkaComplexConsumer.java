@@ -106,10 +106,20 @@ public class KafkaComplexConsumer {
     }
 
     /**
+     * 指定消费位移 {@link KafkaConsumer#seek(TopicPartition, long)}<br/>
+     * 消费者再均衡监听器 {@link ConsumerRebalanceListener}<br/>
+     * 消费者拦截器 {@link ConsumerInterceptor}，在{@link KafkaConsumer#poll(Duration)}之前执行，可修改或过滤消息
      * @see KafkaConsumer#wakeup()
      * @see KafkaConsumer#close()
      */
     public static void controlConsumer() {
+
+    }
+
+    /**
+     * {@link KafkaConsumer} 是非线程安全的
+     */
+    public static void multThread() {
 
     }
 
