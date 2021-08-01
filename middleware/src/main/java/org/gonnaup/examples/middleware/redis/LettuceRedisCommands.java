@@ -154,4 +154,21 @@ public class LettuceRedisCommands {
             redisClient.shutdown();
         }
     }
+
+    /**
+     * bitmap
+     */
+    public static void bitmapCommand() {
+        final RedisClient redisClient = LettuceRedisClientFactory.standaloneClient();
+        try (final StatefulRedisConnection<String, String> connect = redisClient.connect()) {
+            final RedisCommands<String, String> commands = connect.sync();
+            final String key = "sign-in";
+            commands.setbit(key, 200, 1);
+            commands.getbit(key, 200);
+            commands.bitcount(key, 0, 365);
+            commands.del(key);
+        } finally {
+            redisClient.shutdown();
+        }
+    }
 }
