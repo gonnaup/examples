@@ -4,7 +4,7 @@
 
 #### 简介
 
-​		Redis 是一个开源（BSD许可）的，内存中的数据结构存储系统，它可以用作数据库、缓存和消息中间件。 它支持多种类型的数据结构，如 [字符串（strings）](http://www.redis.cn/topics/data-types-intro.html#strings)， [散列（hashes）](http://www.redis.cn/topics/data-types-intro.html#hashes)， [列表（lists）](http://www.redis.cn/topics/data-types-intro.html#lists)， [集合（sets）](http://www.redis.cn/topics/data-types-intro.html#sets)， [有序集合（sorted sets）](http://www.redis.cn/topics/data-types-intro.html#sorted-sets) 与范围查询， [bitmaps](http://www.redis.cn/topics/data-types-intro.html#bitmaps)， [hyperloglogs](http://www.redis.cn/topics/data-types-intro.html#hyperloglogs) 和 [地理空间（geospatial）](http://www.redis.cn/commands/geoadd.html) 索引半径查询。 Redis 内置了 [复制（replication）](http://www.redis.cn/topics/replication.html)，[LUA脚本（Lua scripting）](http://www.redis.cn/commands/eval.html)， [LRU驱动事件（LRU eviction）](http://www.redis.cn/topics/lru-cache.html)，[事务（transactions）](http://www.redis.cn/topics/transactions.html) 和不同级别的 [磁盘持久化（persistence）](http://www.redis.cn/topics/persistence.html)， 并通过 [Redis哨兵（Sentinel）](http://www.redis.cn/topics/sentinel.html)和自动 [分区（Cluster）](http://www.redis.cn/topics/cluster-tutorial.html)提供高可用性（high availability）。
+	Redis 是一个开源（BSD许可）的，内存中的数据结构存储系统，它可以用作数据库、缓存和消息中间件。 它支持多种类型的数据结构，如 [字符串（strings）](http://www.redis.cn/topics/data-types-intro.html#strings)， [散列（hashes）](http://www.redis.cn/topics/data-types-intro.html#hashes)， [列表（lists）](http://www.redis.cn/topics/data-types-intro.html#lists)， [集合（sets）](http://www.redis.cn/topics/data-types-intro.html#sets)， [有序集合（sorted sets）](http://www.redis.cn/topics/data-types-intro.html#sorted-sets) 与范围查询， [bitmaps](http://www.redis.cn/topics/data-types-intro.html#bitmaps)， [hyperloglogs](http://www.redis.cn/topics/data-types-intro.html#hyperloglogs) 和 [地理空间（geospatial）](http://www.redis.cn/commands/geoadd.html) 索引半径查询。 Redis 内置了 [复制（replication）](http://www.redis.cn/topics/replication.html)，[LUA脚本（Lua scripting）](http://www.redis.cn/commands/eval.html)， [LRU驱动事件（LRU eviction）](http://www.redis.cn/topics/lru-cache.html)，[事务（transactions）](http://www.redis.cn/topics/transactions.html) 和不同级别的 [磁盘持久化（persistence）](http://www.redis.cn/topics/persistence.html)， 并通过 [Redis哨兵（Sentinel）](http://www.redis.cn/topics/sentinel.html)和自动 [分区（Cluster）](http://www.redis.cn/topics/cluster-tutorial.html)提供高可用性（high availability）。
 
 
 
@@ -14,9 +14,9 @@
 
 ###### 	描述
 
-​		二进制安全的字符串	
+	二进制安全的字符串	
 
-​		`key -> value`
+	`key -> value`
 
 ###### 	常用命令
 
@@ -36,7 +36,7 @@
 
 **返回值：**     
 
-​		 `SET` 命令只在设置操作成功完成时才返回 `OK` ； 如果命令使用了 `NX` 或者 `XX` 选   项， 但是因为条件没达到而造成设置操作未执行， 那么命令将返回空批量回复（NULL Bulk Reply）。
+	 `SET` 命令只在设置操作成功完成时才返回 `OK` ； 如果命令使用了 `NX` 或者 `XX` 选   项， 但是因为条件没达到而造成设置操作未执行， 那么命令将返回空批量回复（NULL Bulk Reply）。
 
 
 
@@ -96,9 +96,9 @@
 
 ###### 	描述
 
-​	    按插入顺序排序的字符串元素集合。是链表结构(Linked lists)，也可作列队(Queue)		
+    按插入顺序排序的字符串元素集合。是链表结构(Linked lists)，也可作列队(Queue)		
 
-​		`key -> v1--v2--v3--...--vn`
+	`key -> v1--v2--v3--...--vn`
 
 ###### 常用命令
 
@@ -190,13 +190,13 @@
 
 > LSET key index value	->	头尾操作O(1)，其他O(n)
 
-​	将列表 `key` 下标为 `index` 的元素的值设置为 `value` 。操作成功返回 `ok` ，`index` 参数超出范围，或对一个空列表( `key` 不存在)进行 [LSET](http://redisdoc.com/list/lset.html#lset) 时，返回一个错误。
+将列表 `key` 下标为 `index` 的元素的值设置为 `value` 。操作成功返回 `ok` ，`index` 参数超出范围，或对一个空列表( `key` 不存在)进行 [LSET](http://redisdoc.com/list/lset.html#lset) 时，返回一个错误。
 
 
 
 > LRANGE key start stop	->	O(s+n) `S` 为偏移量 `start` ， `N` 为指定区间内元素的数量。
 
-​	返回列表 `key` 中<u>指定区间内的元素</u>，区间以偏移量 `start` 和 `stop` 指定。
+返回列表 `key` 中<u>指定区间内的元素</u>，区间以偏移量 `start` 和 `stop` 指定。
 
 下标(index)参数 `start` 和 `stop` 都以 `0` 为底，也可以使用负数下标，以 `-1` 表示列表的最后一个元素， `-2` 表示列表的倒数第二个元素，以此类推。**返回值包含 `start` 和 `stop` 所指的值**。**超出范围的下标值不会引起错误。**
 
@@ -220,9 +220,9 @@
 
 ###### 描述
 
-​	不重复且无序的字符串集合
+不重复且无序的字符串集合
 
-​	`key -> v3--v6--v1--v9--v125--...--vn`
+`key -> v3--v6--v1--v9--v125--...--vn`
 
 ###### 常用命令
 
@@ -350,9 +350,9 @@
 
 ###### 描述
 
-​	类似Sets，但每个字符串元素都关联一个(score)浮动数值(floating number value)。元素通过score值大小排序
+类似Sets，但每个字符串元素都关联一个(score)浮动数值(floating number value)。元素通过score值大小排序
 
-​	`key -> v3[score]--v6[score]--v1[score]--v9[score]--v125[score]--...--vn[score]`
+`key -> v3[score]--v6[score]--v1[score]--v9[score]--v125[score]--...--vn[score]`
 
 ###### 常用命令
 
@@ -669,9 +669,9 @@ redis> ZLEXCOUNT myzset [b [f
 
 ###### 描述
 
-​	由field和关联的value组成的map。field和alue都是字符串。
+由field和关联的value组成的map。field和alue都是字符串。
 
-​	`key -> {k1 : v1, k2 : v2, k3 : v3, ... , kn : vn}`
+`key -> {k1 : v1, k2 : v2, k3 : v3, ... , kn : vn}`
 
 ###### 常用命令
 
@@ -787,11 +787,73 @@ HSETNX 命令在设置成功时返回 1 ， 在给定域已经存在而放弃执
 
 ------
 
-##### ~~Bit arrays~~
+##### BitMap
 
-​	simply bitmaps，通过特殊命令，可以将String值当作一系列bits处理
+###### 描述
 
+simply bitmaps，通过特殊命令，可以将String值当作一系列bits处理，最大偏移量2^32，值为0或1
 
+###### 相关命令
+
+> SETBIT key offset value
+
+对`key`所储存的字符串值，设置或清除指定偏移量上的位（bit）。
+
+位的设置或清除取决于`value`参数，可以是`0`也可以是`1`。
+
+当`key`不存在时自动生成一个新的字符串值。`0 <= offset < 2^32`
+
+> <span style='color:red'>对使用大的`offset`的SETBIT操作来说，内存分配可能造成Redis服务器被阻塞</span>
+
+> GETBIT key offset
+
+对`key`所储存的字符串值，获取指定偏移量上的位（bit）。
+
+当`offset`比字符串的长度大，或者`key`不存在时，返回`0`。
+
+> BITCOUNT key [start] [end]
+
+计算给定字符串中，被设置为 1 的比特位的数量。
+
+一般情况下，给定的整个字符串都会被进行计数，通过指定额外的 `start` 或 `end` 参数，可以让计数只在特定的位上进行。
+
+`start` 和 `end` 参数的设置和 GETRANGE key start end 命令类似，都可以使用负数值： 比如 -1 表示最后一个字节， -2 表示倒数第二个字节，以此类推。
+
+不存在的 `ke`y 被当成是空字符串来处理，因此对一个不存在的 `key` 进行 `BITCOUNT` 操作，结果为 0 。
+
+返回值：被设置为 1 的位的数量。
+
+> BITPOS key bit [start] [end]
+
+时间复杂度： O(N)，其中 N 为位图包含的二进制位数量
+
+返回位图中第一个值为 `bit` 的二进制位的位置。
+
+在默认情况下， 命令将检测整个位图， 但用户也可以通过可选的 `start` 参数和 `end` 参数指定要检测的范围。
+
+> BITOP operation destkey key [key …]
+
+对一个或多个保存二进制位的字符串 key 进行位元操作，并将结果保存到 destkey 上。
+
+operation 可以是 AND 、 OR 、 NOT 、 XOR 这四种操作中的任意一种：
+
+BITOP AND destkey key [key ...] ，对一个或多个 key 求逻辑并，并将结果保存到 destkey 。
+
+BITOP OR destkey key [key ...] ，对一个或多个 key 求逻辑或，并将结果保存到 destkey 。
+
+BITOP XOR destkey key [key ...] ，对一个或多个 key 求逻辑异或，并将结果保存到 destkey 。
+
+BITOP NOT destkey key ，对给定 key 求逻辑非，并将结果保存到 destkey 。
+
+除了 NOT 操作之外，其他操作都可以接受一个或多个 key 作为输入。
+
+处理不同长度的字符串
+当 BITOP 处理不同长度的字符串时，较短的那个字符串所缺少的部分会被看作 0 。
+
+空的 key 也被看作是包含 0 的字符串序列。
+
+返回值
+保存到 destkey 的字符串的长度，和输入 key 中最长的字符串长度相等。
 
 
 
@@ -799,7 +861,7 @@ HSETNX 命令在设置成功时返回 1 ， 在给定域已经存在而放弃执
 
 ##### ~~HyperLogLogs~~
 
-​	用于估计一个 set 中元素数量的概率性的数据结构
+用于估计一个 set 中元素数量的概率性的数据结构
 
 
 
