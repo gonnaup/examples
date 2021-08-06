@@ -1,4 +1,4 @@
-package org.gonnaup.examples.springs.core.base;
+package org.gonnaup.examples.springs.core.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.gonnaup.examples.springs.beans.Order;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @Slf4j
 @SpringJUnitConfig(AnnotationBasedConfig.class)
-class SpringBaseApplicationTests {
+class AnnotationBasedConfigTest {
 
     @Autowired
     private ProductService productService;

@@ -1,4 +1,4 @@
-package org.gonnaup.examples.springs.core.base;
+package org.gonnaup.examples.springs.core.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,6 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan(basePackages = "org.gonnaup.examples.springs.service")
 public class AnnotationBasedConfig {
-
 
 }
