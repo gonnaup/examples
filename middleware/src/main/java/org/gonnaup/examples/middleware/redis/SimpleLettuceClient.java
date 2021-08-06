@@ -18,6 +18,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SimpleLettuceClient {
 
+    /**
+     * standalone client
+     *
+     * <p>
+     *    <ul>
+     *        <li><a href = "https://github.com/lettuce-io/lettuce-core/blob/6.1.4.RELEASE/src/test/java/io/lettuce/examples/ConnectToRedisUsingRedisSentinel.java">Redis Sentinel</a></li>
+     *        <li><a href="https://github.com/lettuce-io/lettuce-core/blob/6.1.4.RELEASE/src/test/java/io/lettuce/examples/ConnectToRedisCluster.java">Redis Cluster</a></li>
+     *    </ul>
+     * </p>
+     */
     public static void redisConnect() {
         RedisClient redisClient = RedisClient.create("redis://192.168.0.8/0?clientName=gonnaup");
 //        RedisURI redisURI = RedisURI.create("192.168.0.8", 6379);
