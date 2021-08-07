@@ -4,6 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 生命周期配置类
  * @author gonnaup
  * @version created at 2021/8/6 21:16
  */

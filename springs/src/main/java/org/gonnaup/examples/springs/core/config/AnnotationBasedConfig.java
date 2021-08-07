@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 基本注解配置类
  * @author gonnaup
  * @version 2021/7/13 16:31
  */
