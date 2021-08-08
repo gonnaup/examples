@@ -1,9 +1,11 @@
 package org.gonnaup.examples.springs.core.config;
 
+import org.gonnaup.examples.springs.core.lifecycle.PropertySourceLoadedInfo;
 import org.gonnaup.examples.springs.core.placeholdconfigurer.CustomPropertySourcesPlaceholderConfigurer;
 import org.gonnaup.examples.springs.core.placeholdconfigurer.Information;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
@@ -12,7 +14,7 @@ import org.springframework.core.io.ClassPathResource;
  * @version created at 2021/8/7 18:38
  */
 @Configuration
-//@PropertySource("classpath:spring.properties") 属性文件加载方式？
+@PropertySource("classpath:use_propertysource.properties")//使用DefaultPropertySourceFactory加载
 public class PropertySourceConfig {
 
     /**
@@ -30,6 +32,12 @@ public class PropertySourceConfig {
     @Bean
     public Information information() {
         return new Information();
+    }
+
+
+    @Bean
+    public PropertySourceLoadedInfo propertySourceLoadedInfo() {
+        return new PropertySourceLoadedInfo();
     }
 
 }

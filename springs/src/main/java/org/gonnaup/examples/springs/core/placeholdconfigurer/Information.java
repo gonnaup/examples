@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
  */
 @Data
 public class Information {
+
     @Value("${applicationname}")
     private String applicationname;
+
     @Value("${password}")
     private String password;
 }

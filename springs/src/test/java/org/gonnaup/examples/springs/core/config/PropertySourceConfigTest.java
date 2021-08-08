@@ -1,6 +1,7 @@
 package org.gonnaup.examples.springs.core.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gonnaup.examples.springs.core.lifecycle.PropertySourceLoadedInfo;
 import org.gonnaup.examples.springs.core.placeholdconfigurer.Information;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -18,9 +19,13 @@ public class PropertySourceConfigTest {
     @Autowired
     Information information;
 
+    @Autowired
+    PropertySourceLoadedInfo propertySourceLoadedInfo;
+
     @Test
     public void testCustomPropertySourcesPlaceholderConfigurer() {
         log.info("applicationname is {}, password is {}", information.getApplicationname(), information.getPassword());
+        log.info(propertySourceLoadedInfo.toString());
         Assertions.assertEquals("password", information.getPassword());
     }
 }
