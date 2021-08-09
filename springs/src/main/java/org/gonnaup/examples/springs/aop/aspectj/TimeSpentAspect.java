@@ -81,6 +81,8 @@ import java.lang.annotation.Target;
  *   </tr>
  *
  * </tbody></table>
+ *
+ *  切点运算符：<code>&&，||，!</code>
  * @author gonnaup
  * @version created at 2021/8/9 11:57
  */
@@ -106,7 +108,7 @@ public class TimeSpentAspect {
     /**
      * <code>@annotation：</code>方法注解类名
      */
-    @Pointcut("@annotation(CalculateTimeSpent)")
+    @Pointcut("@annotation(org.gonnaup.examples.springs.aop.aspectj.TimeSpentAspect.CalculateTimeSpent)")
     public void annotationPointcut() {
     }
 
