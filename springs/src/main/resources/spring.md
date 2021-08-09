@@ -66,7 +66,7 @@
 
 ###### 事件类型
 
- **内置事件：**`ContextRefreshedEvent`， `ContextStartedEvent`， `ContextStoppedEvent` ， `ContextClosedEvent` ， `RequestHandledEvent` ， `ServletRequestHandledEvent` 
+**内置事件：** `ContextRefreshedEvent`， `ContextStartedEvent`， `ContextStoppedEvent` ， `ContextClosedEvent` ， `RequestHandledEvent` ， `ServletRequestHandledEvent` 
 
 **自定义事件**须继承 `ApplicationEvent`
 
@@ -74,7 +74,7 @@
 
 **发布事件接口：** `ApplicationEventPublisherAware`
 
-**监听事件接口：**`ApplicationListener` ，`@EventListener` 
+**监听事件接口：** `ApplicationListener` ，`@EventListener` 
 
 ##### AOP
 
@@ -91,6 +91,8 @@
 目标导向(TargetObject)：包含连接点的对象，也被称作被代理对象
 
 ###### 使用spring aop
+
+<span style="color:red">应使用最弱的Advice类型实现所需的行为</span>
 
 1、开启spring aop
 
@@ -168,11 +170,11 @@ execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-patter
 
 ##### 相关接口
 
-​	`PlatformTransactionManager`：事务管理的标准接口
+`PlatformTransactionManager`：事务管理的标准接口
 
-​	`TransactionInterceptor`：方法拦截处理器
+`TransactionInterceptor`：方法拦截处理器
 
-​	
+
 
 ##### xml配置事务
 
@@ -434,7 +436,6 @@ public class MyWebAppInitializer extends AbstractDispatcherServletInitializer {
 
 7. `@CrossOrigin`：允许跨域请求，或设置响应头{"Access-Control-Allow-Origin", "*"}
 
-​	
 
 #### Spring-data-jpa
 

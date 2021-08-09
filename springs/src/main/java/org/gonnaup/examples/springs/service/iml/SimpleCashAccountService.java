@@ -1,6 +1,7 @@
 package org.gonnaup.examples.springs.service.iml;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gonnaup.examples.springs.aop.aspectj.TimeSpentAspect;
 import org.gonnaup.examples.springs.beans.CashAccount;
 import org.gonnaup.examples.springs.service.CashAccountService;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,7 @@ public class SimpleCashAccountService implements CashAccountService {
     }
 
     @Override
+    @TimeSpentAspect.CalculateTimeSpent
     public synchronized boolean updateCashAccount(String id, double change) {
         CashAccount cashAccount = cashAccountMap.get(id);
         cashAccount.setCash(BigDecimal.valueOf(cashAccount.getCash()).add(BigDecimal.valueOf(change)).doubleValue());
