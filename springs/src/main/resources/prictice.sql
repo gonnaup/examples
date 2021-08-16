@@ -8,6 +8,9 @@ CREATE USER 'username'@'host' IDENTIFIED BY 'password';
  */
 CREATE USER 'username'@'%' IDENTIFIED BY 'password';
 
+-- 刷新权限
+flush privileges;
+
 -- 授权
 /**
     GRANT privileges ON databasename.tablename TO 'username'@'host';

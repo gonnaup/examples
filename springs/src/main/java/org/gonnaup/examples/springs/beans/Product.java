@@ -20,8 +20,8 @@ public class Product {
     //产地
     private String origin;
 
-    private String description;
-
     //总量
     private double total;
+
+    private String description;
 }
