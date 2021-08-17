@@ -1,10 +1,8 @@
 package org.gonnaup.examples.springs.db;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.gonnaup.examples.springs.db.hibernate.HibernateConfig;
+import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.TransactionManager;
@@ -14,13 +12,14 @@ import javax.sql.DataSource;
 
 /**
  * jdbc事务配置
+ *
  * @author gonnaup
  * @version created at 2021/8/16 15:55
  */
 @Configuration
 @PropertySource("classpath:mysql.properties")
 @EnableTransactionManagement//开启注解事务
-@ComponentScan(basePackageClasses = TransactionalConfig.class)
+@ComponentScan(basePackageClasses = TransactionalConfig.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = HibernateConfig.class))
 public class TransactionalConfig {
 
     @Bean
