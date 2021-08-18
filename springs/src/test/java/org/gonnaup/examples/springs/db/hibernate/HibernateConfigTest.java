@@ -32,7 +32,7 @@ class HibernateConfigTest {
         Student stu_db = studentRepository.findOne(saved.getId());
         assertEquals(stu_db, saved);
         stu_db.setName("UPDATE");
-        studentRepository.updateStudent(stu_db);
+        studentRepository.update(stu_db);
         assertEquals(stu_db, studentRepository.findOne(stu_db.getId()));
         studentRepository.deleteStudent(stu_db.getId());
         assertNull(studentRepository.findOne(stu_db.getId()));

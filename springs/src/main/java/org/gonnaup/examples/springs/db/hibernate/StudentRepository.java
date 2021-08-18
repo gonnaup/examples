@@ -1,9 +1,7 @@
 package org.gonnaup.examples.springs.db.hibernate;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaDelete;
@@ -15,14 +13,7 @@ import javax.persistence.criteria.Root;
  */
 @Slf4j
 @Repository
-@Transactional
-public class StudentRepository {
-
-    private final HibernateTemplate hibernateTemplate;
-
-    public StudentRepository(HibernateTemplate hibernateTemplate) {
-        this.hibernateTemplate = hibernateTemplate;
-    }
+public class StudentRepository extends BaseRepository<Student> {
 
     public Student findOne(Integer id) {
         return hibernateTemplate.get(Student.class, id);
