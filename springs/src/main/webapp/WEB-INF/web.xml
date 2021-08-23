@@ -27,6 +27,6 @@
 
     <servlet-mapping>
         <servlet-name>dispatch_servlet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/</url-pattern><!-- 配置成/*会造成view404错误 -->
     </servlet-mapping>
 </web-app>
