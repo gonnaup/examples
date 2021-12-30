@@ -2,6 +2,7 @@ package org.gonnaup.examples.javase.concurrent;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serial;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 @Slf4j
 public class ReentrantLockProductionLine extends ReentrantLock implements ProductionLine {
 
+    @Serial
     private static final long serialVersionUID = 8618227252853355772L;
 
     private int product_count;
