@@ -5,6 +5,9 @@ import org.gonnaup.examples.javase.VirtualResource;
 
 import java.util.concurrent.*;
 
+import static org.gonnaup.examples.javase.CommonUtil.currentThreadName;
+import static org.gonnaup.examples.javase.CommonUtil.sleep;
+
 /**
  * @author gonnaup
  * @version created at 2021/12/30 16:02
@@ -23,8 +26,8 @@ public class ConcurrentUtil {
             threadPool.submit(() -> {
                 try {
                     semaphore.acquire();
-                    log.info("线程 {} 访问资源 {}", Thread.currentThread().getName(), resource);
-                    TimeUnit.SECONDS.sleep(1);
+                    log.info("线程 {} 访问资源 {}", currentThreadName(), resource);
+                    sleep(1, TimeUnit.SECONDS);
                     semaphore.release();
                 } catch (InterruptedException e) {
                     log.error(e.getMessage());
@@ -33,11 +36,7 @@ public class ConcurrentUtil {
         }
         threadPool.shutdown();
         while (!threadPool.isTerminated()) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(100);
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+            sleep(100, TimeUnit.MILLISECONDS);
         }
     }
 
@@ -50,20 +49,18 @@ public class ConcurrentUtil {
         var threadPool = Executors.newFixedThreadPool(5);
         for (int i = 0; i < 5; i++) {
             threadPool.submit(() -> {
-                try {
-                    log.info("线程 {} 访问资源 {}", Thread.currentThread().getName(), resource);
-                    TimeUnit.SECONDS.sleep(1);
-                    countDownLatch.countDown();
-                } catch (InterruptedException e) {
-                    log.error(e.getMessage());
-                }
+                log.info("线程 {} 访问资源 {}", currentThreadName(), resource);
+                sleep(1, TimeUnit.SECONDS);
+                countDownLatch.countDown();
             });
         }
         try {
             countDownLatch.await();
-            threadPool.shutdown();
         } catch (InterruptedException e) {
             log.error(e.getMessage());
+        } finally {
+            threadPool.shutdown();
+
         }
     }
 
@@ -78,7 +75,7 @@ public class ConcurrentUtil {
             threadPool.submit(() -> {
                 log.info("第 {} 线程准备。。。", n);
                 try {
-                    TimeUnit.SECONDS.sleep(3);
+                    sleep(3, TimeUnit.SECONDS);
                     barrier.await();//等待，直到有3个线程准备完毕
                 } catch (InterruptedException | BrokenBarrierException e) {
                     log.error(e.getMessage());
@@ -88,11 +85,7 @@ public class ConcurrentUtil {
         }
         threadPool.shutdown();
         while (!threadPool.isTerminated()) {
-            try {
-                TimeUnit.MILLISECONDS.sleep(100);
-            } catch (InterruptedException e) {
-                log.error(e.getMessage());
-            }
+            sleep(100, TimeUnit.MILLISECONDS);
         }
     }
 
