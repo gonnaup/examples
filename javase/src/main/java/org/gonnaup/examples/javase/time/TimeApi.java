@@ -2,10 +2,13 @@ package org.gonnaup.examples.javase.time;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.SimpleDateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * jdk8开始的java.time API
@@ -96,11 +99,64 @@ public class TimeApi {
 
     }
 
+    /**
+     * 时区
+     */
+    public void timeZone() {
+        // JDK1.8之前
+        Date date = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        format.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        String shanghai = format.format(date);
+        format.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
+        String tokyo = format.format(date);
+        log.info("上海时区时间 {}，东京时区时间 {}", shanghai, tokyo);
+
+        // JDK1.8引入了ZonedDateTime
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        log.info("当前时区时间 {}", zonedDateTime);
+
+        //东京时间
+        ZoneId jst = ZoneId.of(ZoneId.SHORT_IDS.get("JST"));
+        log.info("东京时区 {}", jst.getRules());
+        ZonedDateTime tokyoDateTime = zonedDateTime.withZoneSameInstant(jst);
+        log.info("东京时间 {}", tokyoDateTime);
+        log.info("东京时间转当地时间 {}", tokyoDateTime.toLocalDateTime());
+        log.info("本地时区时间 {}", tokyoDateTime.toLocalDateTime().atZone(ZoneId.systemDefault()));
+    }
+
+    /**
+     * {@link Clock}
+     * {@link Instant}
+     * {@link Duration}
+     */
+    public void clock_instant_duration() {
+        Clock clock = Clock.systemDefaultZone();
+        log.info("clock to millis {}", clock.millis());
+        log.info("clock to instant {}", clock.instant());
+        log.info("instant to Date {}", Date.from(clock.instant()));
+
+        //注意：此处的参数必须是具体的日期时间且带有ZoneID，否则会抛出异常
+//        Instant instant = Instant.from(LocalDateTime.now()); 抛出 异常
+        Instant instant1 = Instant.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()));
+        log.info("instant atStartOfDay milliseconds {}", instant1.toEpochMilli());
+        Instant instant2 = Instant.from(LocalTime.now().atDate(LocalDate.now()).atZone(ZoneId.systemDefault()));
+        log.info("instant localTime atDateNow milliseconds {}", instant2.toEpochMilli());
+        log.info("LocalDateTime to instant {}", LocalDateTime.now().toInstant(ZoneOffset.ofHours(8)).toEpochMilli());
+        log.info("instant from localDateTime {}", Instant.from(LocalDateTime.now().atZone(ZoneId.systemDefault())).toEpochMilli());
+
+        Duration duration = Duration.ofHours(1);
+        log.info("duration ofHours_1 {} => {} seconds", duration, duration.getSeconds());
+        log.info("duration ofHours_1 plus minutes_20 is {} Milliseconds", duration.plus(30, ChronoUnit.MINUTES).toMillis());
+    }
+
 
     public static void main(String[] args) {
         TimeApi timeApi = new TimeApi();
         timeApi.format();
         timeApi.calculate();
         timeApi.obtainSpecifiedDate();
+        timeApi.timeZone();
+        timeApi.clock_instant_duration();
     }
 }
