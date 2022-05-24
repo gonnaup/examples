@@ -1,7 +1,7 @@
 package org.gonnaup.examples.middleware.messagebody;
 
-import org.apache.commons.lang.RandomStringUtils;
-import org.apache.commons.lang.math.RandomUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,12 +23,12 @@ public final class MessageFactory {
 
     public static Product randomProduct() {
         return new Product(
-                RandomUtils.nextInt(99999999),
+                RandomUtils.nextInt(1, 99999999),
                 RandomStringUtils.randomAlphabetic(6),
                 BigDecimal.valueOf(RandomUtils.nextDouble() * 10000).setScale(2, RoundingMode.HALF_UP).doubleValue(),
                 RandomStringUtils.randomAlphabetic(10),
-                RandomUtils.nextInt(1000) + 10,
-                RandomStringUtils.randomAlphabetic(RandomUtils.nextInt(90) + 10),
+                RandomUtils.nextInt(0, 1000) + 10,
+                RandomStringUtils.randomAlphabetic(RandomUtils.nextInt(0, 90) + 10),
                 LocalDate.now(),
                 LocalDateTime.now()
         );
