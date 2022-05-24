@@ -6,6 +6,7 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.zookeeper.CreateMode;
 import org.apache.zookeeper.data.Stat;
+import org.gonnaup.examples.middleware.ConstProperties;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
@@ -22,7 +23,7 @@ public class CuratorEx {
     public static boolean createNode(String path, String payloadstring) {
         Objects.requireNonNull(path);
         Objects.requireNonNull(payloadstring);
-        CuratorFramework client = CuratorFrameworkFactory.newClient("localhost", new ExponentialBackoffRetry(1000, 5));
+        CuratorFramework client = CuratorFrameworkFactory.newClient(String.format("%s:2181", ConstProperties.SERVER_ADDRESS), new ExponentialBackoffRetry(1000, 5));
         try (client) {
             client.start();//启动并连接服务器
             byte[] payload = payloadstring.getBytes(StandardCharsets.UTF_8);
@@ -40,7 +41,7 @@ public class CuratorEx {
 
     public static String readNode(String path) {
         Objects.requireNonNull(path);
-        CuratorFramework client = CuratorFrameworkFactory.newClient("localhost", new ExponentialBackoffRetry(1000, 5));
+        CuratorFramework client = CuratorFrameworkFactory.newClient(String.format("%s:2181", ConstProperties.SERVER_ADDRESS), new ExponentialBackoffRetry(1000, 5));
         try (client) {
             client.start();
             Stat stat = client.checkExists().forPath(path);
@@ -60,7 +61,7 @@ public class CuratorEx {
     public static boolean updateNode(String path, String payloadstring) {
         Objects.requireNonNull(path);
         Objects.requireNonNull(payloadstring);
-        CuratorFramework client = CuratorFrameworkFactory.newClient("localhost", new ExponentialBackoffRetry(1000, 5));
+        CuratorFramework client = CuratorFrameworkFactory.newClient(String.format("%s:2181", ConstProperties.SERVER_ADDRESS), new ExponentialBackoffRetry(1000, 5));
         try (client) {
             client.start();
             client.setData()
@@ -74,7 +75,7 @@ public class CuratorEx {
 
     public static boolean deleteNode(String path) {
         Objects.requireNonNull(path);
-        CuratorFramework client = CuratorFrameworkFactory.newClient("localhost", new ExponentialBackoffRetry(1000, 5));
+        CuratorFramework client = CuratorFrameworkFactory.newClient(String.format("%s:2181", ConstProperties.SERVER_ADDRESS), new ExponentialBackoffRetry(1000, 5));
         try (client) {
             client.start();
             client.delete()

@@ -8,6 +8,7 @@ import io.lettuce.core.event.command.CommandListener;
 import io.lettuce.core.event.command.CommandStartedEvent;
 import io.lettuce.core.event.command.CommandSucceededEvent;
 import lombok.extern.slf4j.Slf4j;
+import org.gonnaup.examples.middleware.ConstProperties;
 
 /**
  * 使用Lettuce连接redis
@@ -29,7 +30,7 @@ public class SimpleLettuceClient {
      * </p>
      */
     public static void redisConnect() {
-        RedisClient redisClient = RedisClient.create("redis://192.168.0.8/0?clientName=gonnaup");
+        RedisClient redisClient = RedisClient.create(String.format("redis://%s/0?clientName=gonnaup", ConstProperties.SERVER_ADDRESS));
 //        RedisURI redisURI = RedisURI.create("192.168.0.8", 6379);
 //        redisURI.setClientName("gonnaup");
 //        RedisClient redisClient = RedisClient.create(redisURI);
